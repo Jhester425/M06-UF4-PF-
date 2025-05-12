@@ -1,11 +1,7 @@
-import {
-  BanknotesIcon,
-  ClockIcon,
-  UserGroupIcon,
-  InboxIcon,
-} from '@heroicons/react/24/outline';
+import { BanknotesIcon, ClockIcon, UserGroupIcon, InboxIcon } from '@heroicons/react/24/outline';
 import { lusitana } from '@/app/ui/fonts';
 
+// Icon mapping based on the type of card
 const iconMap = {
   collected: BanknotesIcon,
   customers: UserGroupIcon,
@@ -13,23 +9,7 @@ const iconMap = {
   invoices: InboxIcon,
 };
 
-export default async function CardWrapper() {
-  return (
-    <>
-      {/* NOTE: Uncomment this code in Chapter 9 */}
-
-      {/* <Card title="Collected" value={totalPaidInvoices} type="collected" />
-      <Card title="Pending" value={totalPendingInvoices} type="pending" />
-      <Card title="Total Invoices" value={numberOfInvoices} type="invoices" />
-      <Card
-        title="Total Customers"
-        value={numberOfCustomers}
-        type="customers"
-      /> */}
-    </>
-  );
-}
-
+// Card Component to display the actual card data
 export function Card({
   title,
   value,
@@ -48,11 +28,33 @@ export function Card({
         <h3 className="ml-2 text-sm font-medium">{title}</h3>
       </div>
       <p
-        className={`${lusitana.className}
-          truncate rounded-xl bg-white px-4 py-8 text-center text-2xl`}
+        className={`${lusitana.className} truncate rounded-xl bg-white px-4 py-8 text-center text-2xl`}
       >
         {value}
       </p>
+    </div>
+  );
+}
+
+// CardWrapper to pass data down to Card component
+export function CardWrapper({
+  totalPaidInvoices,
+  totalPendingInvoices,
+  numberOfInvoices,
+  numberOfCustomers,
+}: {
+  totalPaidInvoices: string;
+  totalPendingInvoices: string;
+  numberOfInvoices: number;
+  numberOfCustomers: number;
+}) {
+  return (
+    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      {/* Pass the relevant data to the Card components */}
+      <Card title="Collected" value={totalPaidInvoices} type="collected" />
+      <Card title="Pending" value={totalPendingInvoices} type="pending" />
+      <Card title="Total Invoices" value={numberOfInvoices} type="invoices" />
+      <Card title="Total Customers" value={numberOfCustomers} type="customers" />
     </div>
   );
 }

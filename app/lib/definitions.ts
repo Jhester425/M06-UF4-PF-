@@ -1,7 +1,8 @@
+// /app/lib/definitions.ts
+
 // This file contains type definitions for your data.
 // It describes the shape of the data, and what data type each property should accept.
-// For simplicity of teaching, we're manually defining these types.
-// However, these types are generated automatically if you're using an ORM such as Prisma.
+
 export type User = {
   id: string;
   name: string;
@@ -19,31 +20,31 @@ export type Customer = {
 export type Invoice = {
   id: string;
   customer_id: string;
-  amount: number;
-  date: string;
-  // In TypeScript, this is called a string union type.
-  // It means that the "status" property can only be one of the two strings: 'pending' or 'paid'.
-  status: 'pending' | 'paid';
+  amount: number; // Store the amount as a number for easy calculation
+  date: string;   // Store date as a string (ISO format: 'YYYY-MM-DD')
+  status: 'pending' | 'paid';  // Status of the invoice
 };
 
 export type Revenue = {
-  month: string;
-  revenue: number;
+  month: string;  // Store month in 'YYYY-MM' format (e.g., '2025-05')
+  revenue: number;  // Revenue amount for the month
 };
 
+// This represents the structure for Latest Invoices used in UI.
 export type LatestInvoice = {
   id: string;
   name: string;
   image_url: string;
   email: string;
-  amount: string;
+  amount: string;  // Amount formatted as a string for display purposes
 };
 
-// The database returns a number for amount, but we later format it to a string with the formatCurrency function
+// Raw data for LatestInvoice before it is formatted.
 export type LatestInvoiceRaw = Omit<LatestInvoice, 'amount'> & {
-  amount: number;
+  amount: number;  // Amount is stored as a number in the database
 };
 
+// Full Invoice structure for interacting with database.
 export type InvoicesTable = {
   id: string;
   customer_id: string;
@@ -55,6 +56,7 @@ export type InvoicesTable = {
   status: 'pending' | 'paid';
 };
 
+// Customer table type with additional aggregated information (like total invoices, pending, and paid).
 export type CustomersTableType = {
   id: string;
   name: string;
@@ -65,14 +67,15 @@ export type CustomersTableType = {
   total_paid: number;
 };
 
+// A formatted version of CustomersTableType to display in a user-friendly format.
 export type FormattedCustomersTable = {
   id: string;
   name: string;
   email: string;
   image_url: string;
   total_invoices: number;
-  total_pending: string;
-  total_paid: string;
+  total_pending: string;  // Formatted as string (currency)
+  total_paid: string;     // Formatted as string (currency)
 };
 
 export type CustomerField = {
@@ -86,3 +89,4 @@ export type InvoiceForm = {
   amount: number;
   status: 'pending' | 'paid';
 };
+
