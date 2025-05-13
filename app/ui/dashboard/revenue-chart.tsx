@@ -1,9 +1,14 @@
+// /app/ui/dashboard/revenue-chart.tsx
 import { lusitana } from '@/app/ui/fonts';  // Import custom font
 import { Revenue } from '@/app/lib/definitions';  // Import the Revenue type
+import { fetchRevenue } from '@/app/lib/data';  // Import the fetch function to get revenue data
 
-// The RevenueChart component that receives 'revenue' as a prop
-export default function RevenueChart({ revenue }: { revenue: Revenue[] }) {
-  // If no revenue data or empty data is passed, show a message
+// The RevenueChart component that now fetches its own data
+export default async function RevenueChart() {
+  // Fetch the revenue data inside the component
+  const revenue = await fetchRevenue();
+
+  // If no revenue data is found, show a fallback message
   if (!revenue || revenue.length === 0) {
     return <p className="mt-4 text-gray-400">No data available.</p>;
   }

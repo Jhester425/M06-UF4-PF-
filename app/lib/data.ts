@@ -15,18 +15,26 @@ const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
 // Fetch Revenue Data
 export async function fetchRevenue() {
   try {
+    // Artificial delay for simulation purposes
+    console.log('Fetching revenue data...');
+    await new Promise((resolve) => setTimeout(resolve, 3000)); // 3-second delay
+
     const revenueData = await sql<Revenue[]>`
       SELECT month, revenue
       FROM revenue
       ORDER BY month DESC
       LIMIT 12;
     `;
+
+    console.log('Data fetch completed after 3 seconds.');
+
     return revenueData;
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch revenue data.');
   }
 }
+
 
 // Fetch Latest Invoices
 export async function fetchLatestInvoices() {
@@ -54,6 +62,7 @@ export async function fetchLatestInvoices() {
 // Fetch Card Data
 export async function fetchCardData() {
   try {
+    // Perform database queries
     const invoiceCountPromise = sql`SELECT COUNT(*) FROM invoices`;
     const customerCountPromise = sql`SELECT COUNT(*) FROM customers`;
     const invoiceStatusPromise = sql`
@@ -63,17 +72,23 @@ export async function fetchCardData() {
       FROM invoices;
     `;
 
+    // Wait for all promises to resolve
     const data = await Promise.all([
       invoiceCountPromise,
       customerCountPromise,
       invoiceStatusPromise,
     ]);
 
+    // Log the raw data to verify results
+    console.log('Fetched data:', data);
+
+    // Access the results of each query
     const numberOfInvoices = Number(data[0][0].count ?? '0');
     const numberOfCustomers = Number(data[1][0].count ?? '0');
     const totalPaidInvoices = formatCurrency(data[2][0].paid ?? '0');
     const totalPendingInvoices = formatCurrency(data[2][0].pending ?? '0');
 
+    // Return the structured data
     return {
       numberOfInvoices,
       numberOfCustomers,

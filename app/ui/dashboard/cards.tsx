@@ -1,5 +1,7 @@
+// /app/ui/dashboard/cards.tsx
 import { BanknotesIcon, ClockIcon, UserGroupIcon, InboxIcon } from '@heroicons/react/24/outline';
 import { lusitana } from '@/app/ui/fonts';
+import { fetchCardData } from '@/app/lib/data';  // Import the fetchCardData function
 
 // Icon mapping based on the type of card
 const iconMap = {
@@ -36,18 +38,16 @@ export function Card({
   );
 }
 
-// CardWrapper to pass data down to Card component
-export function CardWrapper({
-  totalPaidInvoices,
-  totalPendingInvoices,
-  numberOfInvoices,
-  numberOfCustomers,
-}: {
-  totalPaidInvoices: string;
-  totalPendingInvoices: string;
-  numberOfInvoices: number;
-  numberOfCustomers: number;
-}) {
+// CardWrapper component to fetch and pass data to the Card components
+export default async function CardWrapper() {
+  // Fetch card data within the wrapper component
+  const {
+    numberOfInvoices,
+    numberOfCustomers,
+    totalPaidInvoices,
+    totalPendingInvoices,
+  } = await fetchCardData();  // Fetch the card data from your data source
+
   return (
     <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
       {/* Pass the relevant data to the Card components */}

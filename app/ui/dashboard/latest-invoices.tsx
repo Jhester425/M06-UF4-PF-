@@ -1,9 +1,11 @@
 // /app/ui/dashboard/latest-invoices.tsx
+'use client';  // Make this a client component
+
 import { ArrowPathIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import Image from 'next/image';
 import { lusitana } from '@/app/ui/fonts';
-import { LatestInvoice } from '@/app/lib/definitions';  // Importing LatestInvoice type
+import { LatestInvoice } from '@/app/lib/definitions';  // Import LatestInvoice type
 
 // Define the prop type for the LatestInvoices component
 interface LatestInvoicesProps {
